@@ -1,0 +1,26 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html,body{margin:0;height:100%}</style>
+<body>
+<script>
+const b43 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:"
+const h = location.hash.slice(1)
+let n = 0n
+for (const c of h) n = n * 43n + BigInt(b43.indexOf(c))
+const bytes = new Uint8Array(Math.floor(h.length * Math.log2(43) / 8))
+for (let i = bytes.length - 1; n > 0n; i--) {
+	bytes[i] = Number(n & 255n)
+	n >>= 8n;
+}
+const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))
+;(async () => {
+	const html = await new Response(stream).text()
+	const f = document.createElement("iframe")
+	f.sandbox = "allow-scripts"
+	f.allow = "autoplay; fullscreen"
+	f.style.cssText = "display:block;width:100%;height:100%;border:none"
+	f.srcdoc = html
+	document.body.append(f)
+})()
+</script>
+
