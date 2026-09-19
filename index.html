@@ -4,4 +4,5 @@ n=0n
 for(c of h)n=n*43n+BigInt("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:".indexOf(c))
 b=new Uint8Array(h.length*.6783)
 for(i=b.length;n;n>>=8n)b[--i]=Number(n&255n)
-f.srcdoc=await new Response(new Response(b).body.pipeThrough(new DecompressionStream("deflate-raw"))).text()})()</script>
+f.srcdoc=await new Response(new Response(b).body.pipeThrough(new DecompressionStream("deflate-raw"))).text()})()
+navigator.serviceWorker.register("s.js")</script>
